@@ -37,3 +37,6 @@ I created the web app using Django for backend and bootstrap for frontend
 - run `pip install -r requirements.txt`
 - create `.env` file and configure `API_KEY`
 - `python manage.py runserver`
+
+### Output
+![result](./Sample%20Files/result.png)
