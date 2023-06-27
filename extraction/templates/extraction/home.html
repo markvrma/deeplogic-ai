@@ -2,11 +2,27 @@
 
 {% block content %}
 
-<form action="{% url 'home' %}" method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{form.as_p}}
-  <input type="submit" value="Upload">
-</form>
+<style>
+  .upload{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 25vh;
+  }
+
+</style>
+
+
+<div class="upload">
+  <form action="{% url 'home' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Upload">
+  </form>
+</div>
+<div class="upload">
+  {{data|safe}}
+</div>
 
 
 {% endblock content %}
