@@ -39,4 +39,5 @@ I created the web app using Django for backend and bootstrap for frontend
 - `python manage.py runserver`
 
 ### Output
+![sample](media/uploads/4faf21ea-90f1-438d-9d80-b35984c5df7c_sample2.jpg)
 ![result](./Sample%20Files/result.png)
