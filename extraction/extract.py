@@ -1,4 +1,16 @@
 from pdf2image import convert_from_path
+from nanonets import NANONETSOCR
+import os
+import cv2 
+import csv
+import pytesseract
+from PIL import Image
+import tabula
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
 
 # pdfs = "../Sample Files/sample1.pdf"
 # pages = convert_from_path(pdfs,350)
@@ -9,20 +21,33 @@ from pdf2image import convert_from_path
 #     page.save(f'../Sample Files/{image_name}',"JPEG")
 #     i = i+1
 
-import cv2 
-import pytesseract
-from PIL import Image
-import tabula
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
 
+def get_text(uploaded_file):
+    '''
+    using a external api
+    '''
+    # uploaded the image
+    # get the image file path
+    # urn and get the output
+    # delete the image 
+    file_path = f'./media/uploads/{uploaded_file}'
+    out_path = f'./Sample Files/output_new.csv'
+    abs_path = os.path.abspath(file_path)
+    abs_path2 = os.path.abspath(out_path) 
 
-def get_text(f):
+    model = NANONETSOCR()
+    model.set_token(os.environ.get('API_KEY'))
 
-    text = pytesseract.image_to_string(Image.open(f))
-
-    return text
+    print(abs_path)
+    if os.path.exists(abs_path):
+        model.convert_to_csv(abs_path, output_file_name = abs_path2)
+        with open(abs_path2, 'r') as file:
+            csvreader = csv.reader(file)
+            for row in csvreader:
+                print(row)
+    else:
+        print("FAILLLL")
+    return True
 
 # image_path = "../../main/Sample Files/sample4.jpg"
 
@@ -60,24 +85,36 @@ def mark_region(image_path):
     return image, line_items_coordinates
 
 # Usage example
-image_path = '../../main/Sample Files/sample4.jpg'
-output_path = '../../main/Sample Files/sample4_new.jpg'
+# image_path = "../Sample Files/sample2.jpg"
+# output_path = '../../main/Sample Files/sample4_new.jpg'
 
-image, line_items_coordinates = mark_region(image_path)
+# image, line_items_coordinates = mark_region(image_path)
 
 # preprocess_image(image_path, output_path)
-c = line_items_coordinates[1]
+# c = line_items_coordinates[1]
 
 # cropping image img = image[y0:y1, x0:x1]
-img = image[c[0][1]:c[1][1], c[0][0]:c[1][0]]    
+# img = image[c[0][1]:c[1][1], c[0][0]:c[1][0]]    
 
-plt.figure(figsize=(10,10))
-plt.imshow(img)
+# plt.figure(figsize=(10,10))
+# plt.imshow(img)
 
-ret,thresh1 = cv2.threshold(img,120,255,cv2.THRESH_BINARY)
+# ret,thresh1 = cv2.threshold(img,120,255,cv2.THRESH_BINARY)
 
 # pytesseract image to string to get results
-text = str(pytesseract.image_to_string(thresh1, config='--psm 6'))
-print(text)
-# text = pytesseract.image_to_string(Image.open(output_path))
+# text = str(pytesseract.image_to_string(thresh1, config='--psm 6'))
+# print(text)
+
+# image = Image.open(image_path)
+
+# text = pytesseract.image_to_string(image)
+# lines = text.split('\n')
+# csv_path = "../Sample Files/output.csv"
+
+# with open(csv_path, 'w', newline='') as csv_file:
+#     writer = csv.writer(csv_file)
+#     writer.writerow(['Extracted Text'])  # Write header row
+#     for line in lines:
+#         writer.writerow([line])
+
 # print(text)
