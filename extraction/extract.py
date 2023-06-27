@@ -12,7 +12,7 @@ def get_text(id,uploaded_file):
 
     # preparing file paths(input and output)
     file_path = f'./media/uploads/{id}_{uploaded_file}'
-    out_path = f'./media/outputs/{id}_{uploaded_file}'
+    out_path = f'./media/outputs/{id}.csv'
 
     # absolute paths - will run on any system, avoiding relative paths
     abs_path = os.path.abspath(file_path)
@@ -30,6 +30,8 @@ def get_text(id,uploaded_file):
         
         # convert the csv to a pandas dataframe to remove NaN values
         data = pd.read_csv(abs_path2)
+
+        # drops rows which all have NaN values
         data = data.dropna(how='all').reset_index(drop=True)
 
         # convert back to csv

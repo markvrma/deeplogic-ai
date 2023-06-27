@@ -13,7 +13,7 @@ class UploadFileForm(forms.Form):
         file_extension = uploaded_file.name.split('.')[-1].lower()
 
         if file_extension not in ALLOWED_EXTENSIONS:
-            raise ValidationError("Only PDF and JPG files are allowed.")
+            raise ValidationError("Only PDF and JPG and PNG files are allowed.")
 
         return uploaded_file
     
